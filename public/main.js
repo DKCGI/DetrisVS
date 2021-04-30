@@ -5,7 +5,7 @@ localTetris.run();
 
 const connectionManager = new ConnectionManager(tetrisManager);
 // const url = location.origin.replace(/^https/, 'ws');
-connectionManager.connect('ws://localhost:9000');
+connectionManager.connect('ws://detrisbvsackend.herokuapp.com/');
 // connectionManager.connect(url);
 const keyListener = (event) => {
   [
