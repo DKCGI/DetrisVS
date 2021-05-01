@@ -70,7 +70,6 @@ function isMobile(){
 
 
 if (!isMobile()) {
-  alert()
   document.addEventListener('mousedown', (e) => {
   e.preventDefault();
   const localArena = document.querySelector('.player.local');

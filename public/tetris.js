@@ -61,8 +61,8 @@ class Tetris {
     this.score = score;
   }
   draw() {
-    this.context.fillStyle = '#000';
-    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.context.fillStyle = 'rgba(0,0,0,0.5)';
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.drawMatrix(this.arena.matrix, { x: 0, y: 0 });
     this.drawMatrix(this.player.matrix, this.player.pos);
   }

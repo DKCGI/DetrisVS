@@ -18,7 +18,12 @@ class TetrisManager {
   }
   sortPlayers(tetri) {
     tetri.forEach((tetris) => {
-      this.document.body.appendChild(tetris.element);
+      if (tetris.element.classList.contains('local')) {
+        document.body.appendChild(tetris.element)
+      } else {
+        document.querySelector('.opponents').appendChild(tetris.element)
+      }
+        
     });
   }
 }
