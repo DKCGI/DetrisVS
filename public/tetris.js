@@ -53,6 +53,7 @@ class Tetris {
   }
   updateScore(score) {
     this.element.querySelector('.score').innerText = score;
+    this.element.querySelector('.speed').innerText = this.player.DROP_SLOW;
   }
   draw() {
     this.context.fillStyle = '#000';

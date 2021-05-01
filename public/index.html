@@ -3,8 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>Document</title>
     <style>
+      *{
+        box-sizing: border-box;
+        margin:0;
+        padding:0;
+      }
       body {
         display: flex;
         background: #202028;
@@ -21,15 +27,29 @@
       }
       canvas {
         border: solid 0.2em #707070;
-        height: 90vh;
+        height: 85vh;
+        max-width:100%;
       }
+      .container{
+        display:grid;
+        grid-template-columns: 1fr 2fr 2fr 1fr;
+      }
+      .bottom_arrows{
+        display:grid;
+        grid-template-columns: 1fr 4fr 1fr;
+      }
+      
     </style>
   </head>
   <body>
     <template id="player-template">
       <div class="player">
-        <div class="score"></div>
+        <div class="container"><span class="rotate-left"><i class="material-icons">rotate_left</i></span> <div>Score: <span class="score"></span></div> <div>Speed: <span class="speed"></span></div><span class="rotate-right"><i class="material-icons">rotate_right</i></span></div>
         <canvas class="tetris" width="240" height="400"></canvas>
+        <div class="bottom_arrows"><span class="rotate-left"><i class="material-icons">rotate_left</i></span>
+          <span><i class="material-icons">arrow_downward</i></span>
+        <span class="rotate-right"><i class="material-icons">rotate_right</i></span></div>
+        
       </div>
     </template>
     <script src="tetris-manager.js"></script>

@@ -38,6 +38,23 @@ const keyListener = (event) => {
 };
 document.addEventListener('keydown', keyListener);
 document.addEventListener('keyup', keyListener);
+document.addEventListener('touchstart', (e) => {
+  const player = localTetris.player;
+  if (e.touches[0].clientX > window.innerWidth * 0.7 && e.touches[0].clientY < window.innerHeight * 0.7) {
+    player.move(1);
+  }
+  else if (e.touches[0].clientX > window.innerWidth * 0.7 && e.touches[0].clientY >= window.innerHeight * 0.7) {
+    player.rotate(1);
+  }
+  else if (e.touches[0].clientX < window.innerWidth * 0.3 && e.touches[0].clientY < window.innerHeight * 0.7) {
+    player.move(-1);
+  }
+  else if (e.touches[0].clientX < window.innerWidth * 0.3 && e.touches[0].clientY >= window.innerHeight * 0.7) {
+    player.rotate(-1);
+  } else if(e.touches[0].clientY > window.innerHeight * 0.5){
+    player.drop();
+  }e
+})
 
 //mouse Controls- able to jump over pieces
 

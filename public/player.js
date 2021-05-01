@@ -75,7 +75,11 @@ class Player {
       this.pos.y--;
       this.arena.merge(this);
       this.reset();
+      let score = this.score;
       this.score += this.arena.sweep();
+      if (this.score > score && this.DROP_SLOW > 100) {
+        this.DROP_SLOW -= 20;
+      }
       this.events.emit('score', this.score);
       return;
     }
@@ -91,6 +95,7 @@ class Player {
     if (this.arena.collide(this)) {
       this.arena.clear();
       this.score = 0;
+      this.DROP_SLOW = 1000;
       this.events.emit('score', this.score);
     }
     this.events.emit('pos', this.pos);
