@@ -9,6 +9,8 @@ class Tetris {
     this.player.events.listen('score', (score) => {
       this.updateScore(score);
     });
+    this.level = 0;
+    this.score = 0;
 
     this.colors = [
       null,
@@ -53,7 +55,10 @@ class Tetris {
   }
   updateScore(score) {
     this.element.querySelector('.score').innerText = score;
-    this.element.querySelector('.speed').innerText = this.player.DROP_SLOW;
+    if (score > this.score) {
+      this.element.querySelector('.level').innerText = ++this.level;
+    }
+    this.score = score;
   }
   draw() {
     this.context.fillStyle = '#000';

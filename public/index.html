@@ -11,8 +11,22 @@
         margin:0;
         padding:0;
       }
+      .fullScreen{
+        position: fixed;
+        z-index: 10;
+        top:10px;
+        left:10px;
+      }
+      .material-icons{
+        font-size:1.5em;
+        opacity:0.4;
+        cursor: pointer;
+        user-select: none;
+        outline:none;
+      }
       body {
         display: flex;
+        flex-wrap: wrap;
         background: #202028;
         color: #fff;
         font-family: sans-serif;
@@ -29,29 +43,60 @@
         border: solid 0.2em #707070;
         height: 85vh;
         max-width:100%;
+        opacity: 0.8;
+        max-height: 100vh;
       }
       .container{
+        position: fixed;
+        width:100%;
+        top:0;
         display:grid;
         grid-template-columns: 1fr 2fr 2fr 1fr;
       }
       .bottom_arrows{
+        width:100%;
+        position: fixed;
+        bottom:10px;
         display:grid;
         grid-template-columns: 1fr 4fr 1fr;
       }
-      
+      @media screen and (max-width: 800px){
+        .player{display:none}
+        .player.local {
+          display:block;
+          }
+      }
     </style>
   </head>
   <body>
+    <span class="fullScreen"><i class="material-icons" tabindex="-1">fullscreen</i></span>
     <template id="player-template">
       <div class="player">
-        <div class="container"><span class="rotate-left"><i class="material-icons">rotate_left</i></span> <div>Score: <span class="score"></span></div> <div>Speed: <span class="speed"></span></div><span class="rotate-right"><i class="material-icons">rotate_right</i></span></div>
+        <div class="container"><span class="rotate-left"><i class="material-icons" tabindex="-1">arrow_left</i></span> <div>Score: <span class="score">0</span></div> <div>Level: <span class="level">0</span></div><span class="rotate-right"><i class="material-icons" tabindex="-1">arrow_right</i></span></div>
         <canvas class="tetris" width="240" height="400"></canvas>
         <div class="bottom_arrows"><span class="rotate-left"><i class="material-icons">rotate_left</i></span>
-          <span><i class="material-icons">arrow_downward</i></span>
-        <span class="rotate-right"><i class="material-icons">rotate_right</i></span></div>
+          <span><i class="material-icons" tabindex="-1">arrow_downward</i></span>
+        <span class="rotate-right"><i class="material-icons" tabindex="-1">rotate_right</i></span></div>
         
       </div>
     </template>
+    <script>
+      let fullScreenButton = document.querySelector('.fullScreen');
+      fullScreenButton.addEventListener('click', () => {
+        if(document.fullscreenEnabled !== false){
+          if(!document.fullscreenElement){
+            document.body.requestFullscreen().catch(err => console.log(err.message))
+          }
+        }
+      })
+      document.addEventListener('fullscreenchange', ()=>{
+        if(!document.fullscreenElement){
+          fullScreenButton.style.display = 'inline';
+        }else{
+          fullScreenButton.style.display = 'none';
+        }
+      })
+    </script>
     <script src="tetris-manager.js"></script>
     <script src="connection-manager.js"></script>
     <script src="arena.js"></script>

@@ -13,7 +13,7 @@ class ConnectionManager {
       this.watchEvents();
     });
     this.conn.addEventListener('message', (event) => {
-      console.log('Received message', event.data);
+      // console.log('Received message', event.data);
       this.receive(event.data);
     });
   }
@@ -104,7 +104,7 @@ class ConnectionManager {
   }
   send(data) {
     const msg = JSON.stringify(data);
-    console.log(`Sending message ${msg}`);
+    // console.log(`Sending message ${msg}`);
     this.conn.send(msg);
   }
 }

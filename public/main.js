@@ -2,7 +2,6 @@ const tetrisManager = new TetrisManager(document);
 const localTetris = tetrisManager.createPlayer();
 localTetris.element.classList.add('local');
 localTetris.run();
-
 const connectionManager = new ConnectionManager(tetrisManager);
 // const url = location.origin.replace(/^https/, 'ws');
 connectionManager.connect('wss://detrisbvsackend.herokuapp.com/');
@@ -40,21 +39,60 @@ document.addEventListener('keydown', keyListener);
 document.addEventListener('keyup', keyListener);
 document.addEventListener('touchstart', (e) => {
   const player = localTetris.player;
-  if (e.touches[0].clientX > window.innerWidth * 0.7 && e.touches[0].clientY < window.innerHeight * 0.7) {
+  const localArena = document.querySelector('.player.local');
+  if (e.touches[0].clientX > localArena.getBoundingClientRect().left + localArena.clientWidth * 0.7 && e.touches[0].clientY < window.innerHeight * 0.8) {
     player.move(1);
   }
-  else if (e.touches[0].clientX > window.innerWidth * 0.7 && e.touches[0].clientY >= window.innerHeight * 0.7) {
+  else if (e.touches[0].clientX > window.innerWidth * 0.7 && e.touches[0].clientY >= window.innerHeight * 0.8) {
     player.rotate(1);
   }
-  else if (e.touches[0].clientX < window.innerWidth * 0.3 && e.touches[0].clientY < window.innerHeight * 0.7) {
+  else if (e.touches[0].clientX < localArena.getBoundingClientRect().left + localArena.clientWidth * 0.3 && e.touches[0].clientY < window.innerHeight * 0.8) {
     player.move(-1);
   }
-  else if (e.touches[0].clientX < window.innerWidth * 0.3 && e.touches[0].clientY >= window.innerHeight * 0.7) {
+  else if (e.touches[0].clientX < window.innerWidth * 0.3 && e.touches[0].clientY >= window.innerHeight * 0.8) {
     player.rotate(-1);
-  } else if(e.touches[0].clientY > window.innerHeight * 0.5){
+  } else if(e.touches[0].clientY > window.innerHeight * 0.7){
     player.drop();
   }e
 })
+
+
+function isMobile(){
+  // credit to Timothy Huang for this regex test: 
+  // https://dev.to/timhuang/a-simple-way-to-detect-if-browser-is-on-a-mobile-device-with-javascript-44j3
+  if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+      return true
+ }
+ else{
+      return false
+ }
+}
+
+
+if (!isMobile()) {
+  alert()
+  document.addEventListener('mousedown', (e) => {
+  e.preventDefault();
+  const localArena = document.querySelector('.player.local');
+  console.log(localArena.getBoundingClientRect().left, localArena.clientWidth)
+  const player = localTetris.player;
+  if (e.clientX > localArena.getBoundingClientRect().left + localArena.clientWidth * 0.7 && e.clientY < window.innerHeight * 0.8) {
+    player.move(1);
+  }
+  else if (e.clientX > window.innerWidth * 0.7 && e.clientY >= window.innerHeight * 0.8) {
+    player.rotate(1);
+  }
+  else if (e.clientX < localArena.getBoundingClientRect().left + localArena.clientWidth * 0.3 && e.clientY < window.innerHeight * 0.8) {
+    player.move(-1);
+  }
+  else if (e.clientX < window.innerWidth * 0.3 && e.clientY >= window.innerHeight * 0.8) {
+    player.rotate(-1);
+  } else if(e.clientY > window.innerHeight * 0.7){
+    player.drop();
+  }
+})
+}
+
 
 //mouse Controls- able to jump over pieces
 
