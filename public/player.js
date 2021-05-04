@@ -9,8 +9,16 @@ class Player {
     this.matrix = null;
     this.score = 0;
     this.dropCounter = 0;
+    this.moveCounter = 0;
+    this.moveInterval = 100;
     this.dropInterval = this.DROP_SLOW;
     this.reset();
+    this.nextMatrix = null;
+    this.drop1 = false;
+    this.move1 = false;
+    this.move2 = false;
+    this.rotate1 = false;
+    this.rotate2 = false;
   }
 
   createPiece(type) {
@@ -78,7 +86,8 @@ class Player {
       let score = this.score;
       this.score += this.arena.sweep();
       if (this.score > score && this.DROP_SLOW > 100) {
-        this.DROP_SLOW -= 20;
+        this.DROP_SLOW -= 25;
+        console.log(this.DROP_SLOW);
       }
       this.events.emit('score', this.score);
       return;
@@ -87,7 +96,12 @@ class Player {
   }
   reset() {
     const pieces = 'ILJOTSZ';
-    this.matrix = this.createPiece(pieces[(pieces.length * Math.random()) | 0]);
+    this.matrix =
+      this.nextMatrix ||
+      this.createPiece(pieces[(pieces.length * Math.random()) | 0]);
+    this.nextMatrix = this.createPiece(
+      pieces[(pieces.length * Math.random()) | 0]
+    );
     this.pos.y = 0;
     this.pos.x =
       ((this.arena.matrix[0].length / 2) | 0) -
@@ -130,8 +144,27 @@ class Player {
   }
   update(deltaTime) {
     this.dropCounter += deltaTime;
+    this.moveCounter += deltaTime;
     if (this.dropCounter > this.dropInterval) {
       this.drop();
+    }
+    if (this.moveCounter > this.moveInterval) {
+      if (this.move1) {
+        this.move(1);
+      }
+      if (this.move2) {
+        this.move(-1);
+      }
+      if (this.rotate1) {
+        this.rotate(1);
+      }
+      if (this.rotate2) {
+        this.rotate(-1);
+      }
+      if (this.drop1) {
+        this.drop();
+      }
+      this.moveCounter = 0;
     }
   }
 }

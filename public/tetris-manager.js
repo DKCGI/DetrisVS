@@ -9,7 +9,7 @@ class TetrisManager {
       .children[0];
     const tetris = new Tetris(element);
     this.instances.add(tetris);
-    this.document.body.appendChild(tetris.element);
+    this.document.querySelector('.playerContainer').appendChild(tetris.element);
     return tetris;
   }
   removePlayer(tetris) {
@@ -19,11 +19,12 @@ class TetrisManager {
   sortPlayers(tetri) {
     tetri.forEach((tetris) => {
       if (tetris.element.classList.contains('local')) {
-        document.body.appendChild(tetris.element)
+        this.document
+          .querySelector('.playerContainer')
+          .appendChild(tetris.element);
       } else {
-        document.querySelector('.opponents').appendChild(tetris.element)
+        document.querySelector('.opponents').appendChild(tetris.element);
       }
-        
     });
   }
 }

@@ -3,26 +3,51 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <title>Document</title>
     <style>
-      *{
+      * {
         box-sizing: border-box;
-        margin:0;
-        padding:0;
+        margin: 0;
+        padding: 0;
       }
-      .fullScreen{
+      .fullScreen {
         position: fixed;
         z-index: 10;
-        top:10px;
-        left:10px;
+        top: 5px;
+        left: 10px;
       }
-      .material-icons{
-        font-size:1.5em;
-        opacity:0.4;
+      .pause {
+        position: fixed;
+        z-index: 11;
+        top: 5px;
+        left: 70px;
+      }
+      .material-icons {
+        font-size: 1.5em;
+        opacity: 0.4;
         cursor: pointer;
         user-select: none;
-        outline:none;
+        outline: none;
+        vertical-align: middle;
+      }
+      .controls {
+        position: absolute;
+        left: 10%;
+        top: 30%;
+        width: 200px;
+      }
+      .controls .material-icons,
+      .controls span {
+        font-size: 1.2em;
+        opacity: 1;
+        cursor: pointer;
+        user-select: none;
+        outline: none;
+        width: 50%;
       }
       body {
         background: #202028;
@@ -31,90 +56,166 @@
         font-size: 2em;
         text-align: center;
       }
-      .player{
-        position:relative;
-        top:60px;
+      main {
+        position: relative;
+        height: 100vh;
       }
-      .player.local{
+      main .inviteFriends {
+        font-size: 0.5em;
+        position: fixed;
+        z-index: 10;
+        top: 5px;
+        left: 200px;
+        color: #ccc;
+      }
+      .player {
+        position: relative;
+        top: 80px;
+      }
+      .player.local {
         width: 100%;
-        top:20px;
+        top: 60px;
       }
       .player.local canvas {
         border-color: #fff;
         background-color: #00000085;
       }
-      .opponents{
-        font-size: .4em;
+      .opponents {
+        font-size: 0.3em;
         display: grid;
         grid-template-columns: 1fr 1fr;
         position: fixed;
-        left:50%;
+        left: 50%;
+        top: 100px;
         transform: translateX(-50%);
-        width:200px;
-        max-height:400px;
-        opacity: 0.6;
+        width: 200px;
+        max-height: 400px;
+        opacity: 0.8;
       }
-      .opponents .material-icons, .opponents .bottom_arrows{
-        display: none;
+      .opponents .playerStats {
+        width: 100%;
       }
-      .opponents .container{
-        width:100%
-      }
-      .opponents canvas{
-        width:100%;
-        height:100%
+      .opponents canvas {
+        width: 100%;
+        height: 100%;
       }
       canvas {
-        border: solid 0.2em #707070;
-        height: 85vh;
-        max-width:100%;
+        border: solid 0.1em #707070;
+        /* height: 85vh; */
+        max-width: 80%;
         opacity: 1;
-        max-height: 100vh;
+        max-height: 80vh;
       }
-      .container{
+      .playerStats {
         position: absolute;
-        width:100%;
-        top:0;
-        display:grid;
-        grid-template-columns: 1fr 2fr 2fr 1fr;
+        width: 340px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0.8;
+        font-size: 0.9em;
+        padding: 10px;
       }
-      .bottom_arrows{
-        width:100%;
+      .arrow-left {
         position: absolute;
-        bottom:10px;
-        display:grid;
-        grid-template-columns: 1fr 4fr 1fr;
+        bottom: 20%;
+        left: 2px;
+      }
+      .arrow-right {
+        position: absolute;
+        bottom: 20%;
+        right: 2px;
+      }
+      .bottom_arrows {
+        width: 100%;
+        position: absolute;
+        bottom: 10px;
+        display: grid;
+        grid-template-columns: 1fr 3fr 1fr;
+      }
+      @media screen and (max-width: 900px) {
+        .controls {
+          display: none;
+        }
       }
     </style>
   </head>
   <body>
-    <span class="fullScreen"><i class="material-icons" tabindex="-1">fullscreen</i></span>
     <template id="player-template">
       <div class="player">
-        <div class="container"><span class="rotate-left"><i class="material-icons" tabindex="-1">arrow_left</i></span> <div>Score: <span class="score">0</span></div> <div>Level: <span class="level">0</span></div><span class="rotate-right"><i class="material-icons" tabindex="-1">arrow_right</i></span></div>
-        <canvas class="tetris" width="240" height="400"></canvas>
-        <div class="bottom_arrows"><span class="rotate-left"><i class="material-icons">rotate_left</i></span>
-          <span><i class="material-icons" tabindex="-1">arrow_downward</i></span>
-        <span class="rotate-right"><i class="material-icons" tabindex="-1">rotate_right</i></span></div>
+        <div class="playerStats">
+          <div>Score: <span class="score">0</span></div>
+          <div>Level: <span class="level">0</span></div>
+        </div>
+        <canvas class="tetris" width="336" height="560"></canvas>
       </div>
     </template>
+    <main>
+      <!-- <p class="inviteFriends">Invite friends with URL</p> -->
+      <div class="controls">
+        <i class="material-icons" tabindex="1">arrow_back</i>
+        <span>A</span>
+        <i class="material-icons" tabindex="1">arrow_forward</i>
+        <span>D</span>
+        <i class="material-icons" tabindex="1">arrow_downward</i>
+        <span>S</span>
+        <i class="material-icons" tabindex="1">rotate_left</i>
+        <span>Q</span>
+        <i class="material-icons" tabindex="1">rotate_right</i>
+        <span>E</span>
+      </div>
+      <span class="fullScreen"
+        ><i class="material-icons" tabindex="-1">fullscreen</i></span
+      >
+      <span class="pause"
+        ><i class="material-icons" tabindex="1">pause</i></span
+      >
+      <span class="arrow-left"
+        ><i class="material-icons" tabindex="-1">arrow_left</i></span
+      >
+      <span class="arrow-right"
+        ><i class="material-icons" tabindex="-1">arrow_right</i></span
+      >
+      <div class="playerContainer"></div>
+      <div class="bottom_arrows">
+        <span class="rotate-left"
+          ><i class="material-icons">rotate_left</i></span
+        >
+        <span><i class="material-icons" tabindex="-1">arrow_downward</i></span>
+        <span class="rotate-right"
+          ><i class="material-icons" tabindex="-1">rotate_right</i></span
+        >
+      </div>
+    </main>
     <div class="opponents"></div>
     <script>
       let fullScreenButton = document.querySelector('.fullScreen');
       fullScreenButton.addEventListener('click', () => {
-        if(document.fullscreenEnabled !== false){
-          if(!document.fullscreenElement){
-            document.body.requestFullscreen().catch(err => console.log(err.message))
+        if (document.fullscreenEnabled !== false) {
+          if (!document.fullscreenElement) {
+            document.body
+              .requestFullscreen()
+              .catch((err) => console.log(err.message));
           }
         }
-      })
-      document.addEventListener('fullscreenchange', ()=>{
-        if(!document.fullscreenElement){
+      });
+      fullScreenButton.addEventListener('touchstart', () => {
+        if (document.fullscreenEnabled !== false) {
+          if (!document.fullscreenElement) {
+            document.body
+              .requestFullscreen()
+              .catch((err) => console.log(err.message));
+          }
+        }
+      });
+      document.addEventListener('fullscreenchange', () => {
+        if (!document.fullscreenElement) {
           fullScreenButton.style.display = 'inline';
-        }else{
+        } else {
           fullScreenButton.style.display = 'none';
         }
-      })
+      });
     </script>
     <script src="tetris-manager.js"></script>
     <script src="connection-manager.js"></script>

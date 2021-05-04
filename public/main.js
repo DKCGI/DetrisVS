@@ -37,61 +37,127 @@ const keyListener = (event) => {
 };
 document.addEventListener('keydown', keyListener);
 document.addEventListener('keyup', keyListener);
+document.addEventListener('touchend', (e) => {
+  e.preventDefault();
+  const player = localTetris.player;
+  player.move1 = false;
+  player.move2 = false;
+  player.rotate1 = false;
+  player.rotate2 = false;
+  player.drop1 = false;
+});
 document.addEventListener('touchstart', (e) => {
   const player = localTetris.player;
   const localArena = document.querySelector('.player.local');
-  if (e.touches[0].clientX > localArena.getBoundingClientRect().left + localArena.clientWidth * 0.7 && e.touches[0].clientY < window.innerHeight * 0.8) {
-    player.move(1);
+  if (
+    e.touches[0].clientX >
+      localArena.getBoundingClientRect().left + localArena.clientWidth * 0.7 &&
+    e.touches[0].clientY < window.innerHeight * 0.85 &&
+    e.touches[0].clientY > window.innerHeight * 0.15
+  ) {
+    // player.move(1);
+    player.move1 = true;
+  } else if (
+    e.touches[0].clientX >
+      localArena.getBoundingClientRect().left + localArena.clientWidth * 0.7 &&
+    e.touches[0].clientY >= window.innerHeight * 0.85
+  ) {
+    // player.rotate(1);
+    player.rotate1 = true;
+  } else if (
+    e.touches[0].clientX <
+      localArena.getBoundingClientRect().left + localArena.clientWidth * 0.3 &&
+    e.touches[0].clientY < window.innerHeight * 0.85 &&
+    e.touches[0].clientY > window.innerHeight * 0.15
+  ) {
+    // player.move(-1);
+    player.move2 = true;
+  } else if (
+    e.touches[0].clientX < window.innerWidth * 0.3 &&
+    e.touches[0].clientY >= window.innerHeight * 0.85
+  ) {
+    // player.rotate(-1);
+    player.rotate2 = true;
+  } else if (e.touches[0].clientY > window.innerHeight * 0.85) {
+    // player.drop();
+    player.drop1 = true;
   }
-  else if (e.touches[0].clientX > window.innerWidth * 0.7 && e.touches[0].clientY >= window.innerHeight * 0.8) {
-    player.rotate(1);
-  }
-  else if (e.touches[0].clientX < localArena.getBoundingClientRect().left + localArena.clientWidth * 0.3 && e.touches[0].clientY < window.innerHeight * 0.8) {
-    player.move(-1);
-  }
-  else if (e.touches[0].clientX < window.innerWidth * 0.3 && e.touches[0].clientY >= window.innerHeight * 0.8) {
-    player.rotate(-1);
-  } else if(e.touches[0].clientY > window.innerHeight * 0.7){
-    player.drop();
-  }e
-})
+});
 
+const pauseButton = document.querySelector('.pause');
+pauseButton.addEventListener('click', (e) => {
+  e.preventDefault();
+  if (localTetris.paused) {
+    localTetris._update();
+    localTetris.paused = false;
+  } else {
+    localTetris.pause();
+  }
+});
+pauseButton.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  if (localTetris.paused) {
+    localTetris._update();
+    localTetris.paused = false;
+  } else {
+    localTetris.pause();
+  }
+});
 
-function isMobile(){
-  // credit to Timothy Huang for this regex test: 
+function isMobile() {
+  // credit to Timothy Huang for this regex test:
   // https://dev.to/timhuang/a-simple-way-to-detect-if-browser-is-on-a-mobile-device-with-javascript-44j3
-  if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-      return true
- }
- else{
-      return false
- }
+  if (
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    )
+  ) {
+    return true;
+  } else {
+    return false;
+  }
 }
-
 
 if (!isMobile()) {
   document.addEventListener('mousedown', (e) => {
-  e.preventDefault();
-  const localArena = document.querySelector('.player.local');
-  console.log(localArena.getBoundingClientRect().left, localArena.clientWidth)
-  const player = localTetris.player;
-  if (e.clientX > localArena.getBoundingClientRect().left + localArena.clientWidth * 0.7 && e.clientY < window.innerHeight * 0.8) {
-    player.move(1);
-  }
-  else if (e.clientX > window.innerWidth * 0.7 && e.clientY >= window.innerHeight * 0.8) {
-    player.rotate(1);
-  }
-  else if (e.clientX < localArena.getBoundingClientRect().left + localArena.clientWidth * 0.3 && e.clientY < window.innerHeight * 0.8) {
-    player.move(-1);
-  }
-  else if (e.clientX < window.innerWidth * 0.3 && e.clientY >= window.innerHeight * 0.8) {
-    player.rotate(-1);
-  } else if(e.clientY > window.innerHeight * 0.7){
-    player.drop();
-  }
-})
+    e.preventDefault();
+    const localArena = document.querySelector('.player.local');
+    console.log(
+      localArena.getBoundingClientRect().left,
+      localArena.clientWidth
+    );
+    const player = localTetris.player;
+    if (
+      e.clientX >
+        localArena.getBoundingClientRect().left +
+          localArena.clientWidth * 0.7 &&
+      e.clientY < window.innerHeight * 0.85 &&
+      e.clientY > window.innerHeight * 0.15
+    ) {
+      player.move(1);
+    } else if (
+      e.clientX > window.innerWidth * 0.7 &&
+      e.clientY >= window.innerHeight * 0.85
+    ) {
+      player.rotate(1);
+    } else if (
+      e.clientX <
+        localArena.getBoundingClientRect().left +
+          localArena.clientWidth * 0.3 &&
+      e.clientY < window.innerHeight * 0.85 &&
+      e.clientY > window.innerHeight * 0.15
+    ) {
+      player.move(-1);
+    } else if (
+      e.clientX < window.innerWidth * 0.3 &&
+      e.clientY >= window.innerHeight * 0.85
+    ) {
+      player.rotate(-1);
+    } else if (e.clientY > window.innerHeight * 0.85) {
+      player.drop();
+    }
+  });
 }
-
 
 //mouse Controls- able to jump over pieces
 
