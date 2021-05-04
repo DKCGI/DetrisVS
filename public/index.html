@@ -26,6 +26,13 @@
         top: 5px;
         left: 70px;
       }
+      .unpause {
+        position: fixed;
+        z-index: 11;
+        top: 5px;
+        left: 70px;
+        display: none;
+      }
       .material-icons {
         font-size: 1.5em;
         opacity: 0.4;
@@ -64,7 +71,7 @@
         font-size: 0.5em;
         position: fixed;
         z-index: 10;
-        top: 5px;
+        top: 10px;
         left: 200px;
         color: #ccc;
       }
@@ -130,7 +137,7 @@
       .bottom_arrows {
         width: 100%;
         position: absolute;
-        bottom: 10px;
+        bottom: 30px;
         display: grid;
         grid-template-columns: 1fr 3fr 1fr;
       }
@@ -152,7 +159,7 @@
       </div>
     </template>
     <main>
-      <!-- <p class="inviteFriends">Invite friends with URL</p> -->
+      <p class="inviteFriends">Invite friends with URL</p>
       <div class="controls">
         <i class="material-icons" tabindex="1">arrow_back</i>
         <span>A</span>
@@ -171,6 +178,9 @@
       <span class="pause"
         ><i class="material-icons" tabindex="1">pause</i></span
       >
+      <span class="unpause"
+        ><i class="material-icons" tabindex="1">play_arrow</i></span
+      >
       <span class="arrow-left"
         ><i class="material-icons" tabindex="-1">arrow_left</i></span
       >
@@ -187,8 +197,8 @@
           ><i class="material-icons" tabindex="-1">rotate_right</i></span
         >
       </div>
+      <div class="opponents"></div>
     </main>
-    <div class="opponents"></div>
     <script>
       let fullScreenButton = document.querySelector('.fullScreen');
       fullScreenButton.addEventListener('click', () => {

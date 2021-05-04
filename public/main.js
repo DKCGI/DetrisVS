@@ -85,25 +85,25 @@ document.addEventListener('touchstart', (e) => {
 });
 
 const pauseButton = document.querySelector('.pause');
-pauseButton.addEventListener('click', (e) => {
-  e.preventDefault();
-  if (localTetris.paused) {
-    localTetris._update();
-    localTetris.paused = false;
-  } else {
-    localTetris.pause();
-  }
-});
-pauseButton.addEventListener('touchstart', (e) => {
-  e.preventDefault();
-  if (localTetris.paused) {
-    localTetris._update();
-    localTetris.paused = false;
-  } else {
-    localTetris.pause();
-  }
-});
+const playButton = document.querySelector('.unpause');
+pauseButton.addEventListener('click', pauseUnpause);
+pauseButton.addEventListener('touchstart', pauseUnpause);
+playButton.addEventListener('click', pauseUnpause);
+playButton.addEventListener('touchstart', pauseUnpause);
 
+function pauseUnpause(e) {
+  e.preventDefault();
+  if (localTetris.paused) {
+    localTetris._update();
+    localTetris.paused = false;
+    pauseButton.style.display = 'block';
+    playButton.style.display = 'none';
+  } else {
+    localTetris.pause();
+    pauseButton.style.display = 'none';
+    playButton.style.display = 'block';
+  }
+}
 function isMobile() {
   // credit to Timothy Huang for this regex test:
   // https://dev.to/timhuang/a-simple-way-to-detect-if-browser-is-on-a-mobile-device-with-javascript-44j3
